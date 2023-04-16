@@ -54,50 +54,58 @@ const futureId = 8
 // Do not change code above this comment
 
 console.log(holidays[futureId].name || `ID ${futureId} not created yet`)
-const copied = holidays 
-copied[christmas.name] = "X-mas Day"
-   
-const correctDate = new Date (`25 December ${currentYear} 00:00`)
-copied[christmas].date = correctDate
 
-const isEarlier = copied[christmas].date < holidays[6].date
+let copied = {...holidays[christmas]}
+copied.name = "X-mas Day" 
+let correctDate = new Date() //why does let correctDate = copied.date change the original objects date instead of just the copy
+correctDate.setHours(0)
+correctDate.setMinutes(0)
+copied.date = correctDate
+
+const isEarlier = copied.date.getTime() < holidays[christmas].date.getTime() 
 console.log('New date is earlier:', isEarlier)
-if (isEarlier) copied.date = correctDate
-console.log('ID change:', holidays[christmas].id != copied.id || copied.id)
-console.log('Name change:', holidays[christmas].name != copied.name || copied.name)
-console.log('Date change:', holidays[christmas].date != copied.date || copied.date)
+if (isEarlier) {
+console.log('ID change:', holidays[christmas].id != copied.id ? copied.id : false ) //why does holidays[christmas].id != copied.id || holidays[christmas].id === copied.id ? copied.id : false
+console.log('Name change:', holidays[christmas].name != copied.name ? copied.name : false )
+console.log('Date change:', holidays[christmas].date != copied.date ? "25/12/2023" : false )
+}
 
-const firstHolidayTimestamp = Math.min(
-    holidays[0].date.getTime,
-    holidays[1].date.getTime,
-    holidays[2].date.getTime,
-    holidays[3].date.getTime,
-    holidays[4].date.getTime,
-    holidays[5].date.getTime,
-    holidays[6].date.getTime,
-    holidays[7].date.getTime,
-    holidays[8].date.getTime,
+copied = holidays
+const zero = new Date( `16 December ${currentYear}`)
+copied[0].date = zero
+
+const firstHolidayTimestamp = Math.min (
+    holidays[0].date.getTime(),
+    holidays[1].date.getTime(),
+    holidays[2].date.getTime(),
+    holidays[3].date.getTime(),
+    holidays[4].date.getTime(),
+    holidays[5].date.getTime(),
+    holidays[6].date.getTime(),
+    holidays[7].date.getTime(),
+    holidays[8].date.getTime(),
+)
+ 
+ const lastHolidayTimestamp = Math.max (
+    holidays[0].date.getTime(),
+    holidays[1].date.getTime(),
+    holidays[2].date.getTime(),
+    holidays[3].date.getTime(),
+    holidays[4].date.getTime(),
+    holidays[5].date.getTime(),
+    holidays[6].date.getTime(),
+    holidays[7].date.getTime(),
+    holidays[8].date.getTime(),
 )
 
-const lastHolidayTimestamp = Math.max(
-    holidays[0].date.getTime,
-    holidays[1].date.getTime,
-    holidays[2].date.getTime,
-    holidays[3].date.getTime,
-    holidays[4].date.getTime,
-    holidays[5].date.getTime,
-    holidays[6].date.getTime,
-    holidays[7].date.getTime,
-    holidays[8].date.getTime,
-)
+const firstDay = new Date(firstHolidayTimestamp).getDate() //convert milliseconds to date. Date object allows you to work with dates
+const firstMonth = (new Date(firstHolidayTimestamp).getMonth()) + 1; //in javascript months value runs from 0-11
+const lastDay = new Date (lastHolidayTimestamp).getDate() //new Date(lastHolidayTimestamp).getDate()
+const lastMonth = (new Date(lastHolidayTimestamp).getMonth()) + 1;
 
-const firstDay = firstHolidayTimestamp.getDate
-const firstMonth = firstHolidayTimestamp.getMonth
-const lastDay = lastHolidayTimestamp.getDate
-const lastMonth = lastHolidayTimestamp.getMonth
+console.log(`${firstDay.toString().padStart(2, "0")}/${firstMonth.toString().padStart(2, "0")}/${currentYear}`)
+console.log(`${lastDay.toString().padStart(2, "0")}/${lastMonth.toString().padStart(2, "0")}/${currentYear}`)
 
-console.log(`${firstDay}\t${firstMonth}\t${currentYear}`)
-console.log('{lastDay}/{lastMonth}/{currentYear}')
-
-const randomHoliday = holidays[Math.random]
+const randomHoliday = Math.floor(Math.random()*10) //math.floor rounds down to nearst integer
+//math.random * 10 since we only need a random number up to and including 10
 console.log(randomHoliday)
